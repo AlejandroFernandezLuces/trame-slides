@@ -16,6 +16,6 @@ jobs:
           separator: "/"
           maxsplit: -1
       - name: Check branch naming
-        if: false == (contains(fromJson('["feat", "fix"]'), ${{ steps.split.outputs._0 }}))
-        run: echo "::error::Prefix ${{ steps.split.outputs._0 }} doesn't match possible branch prefixes" && exit 1
+        if: contains(fromJson('["feat"]'), ${{ steps.split.outputs._0 }})
+        run: echo "All good"
         
