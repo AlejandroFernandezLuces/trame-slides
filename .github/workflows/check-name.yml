@@ -16,5 +16,5 @@ jobs:
           separator: "/"
           maxsplit: -1
       - name: Check branch naming
-        run: echo "All bad" && exit 1
         if: contains(fromJson('["feat"]'), steps.split.outputs._0) == false
+        run: echo "All bad" && exit 1
