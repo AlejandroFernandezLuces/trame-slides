@@ -16,6 +16,6 @@ jobs:
           separator: "/"
           maxsplit: -1
       - name: Check branch naming
-        if: feat != ${{ steps.split.outputs._0 }}
+        if: feat != steps.split.outputs._0
         run: echo "::error::Prefix ${{ steps.split.outputs._0 }} doesn't match possible branch prefixes" && exit 1
         
