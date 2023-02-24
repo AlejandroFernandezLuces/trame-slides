@@ -17,7 +17,7 @@ jobs:
           maxsplit: -1
 
       - name: Check branch name has slash
-        if: contains('/', BRANCH_NAME)
+        if: contains('/', env.BRANCH_NAME)
         run: echo "All bad" && exit 1
 
       - name: Check branch prefix naming
