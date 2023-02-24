@@ -1,0 +1,22 @@
+on:
+  push:
+  pull_request:
+   types: [opened, synchronize]
+
+
+
+
+  print_title_of_pr:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: jungwinter/split@master
+        id: branch
+        with:
+          msg: ${{ github.ref_name }}
+          separator: "/"
+          maxsplit: -1
+        env:
+          BRANCH_PREFIX: ${{ steps.split.outputs._0 }}
+      -name: Check branch naming
+        if: false == (contains(fromJson('["feat", "fix"]'), BRANCH_PREFIX))
+        run: exit 1
