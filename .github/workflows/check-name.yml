@@ -5,7 +5,7 @@ env:
  BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
 
 jobs:
-  check-name:
+  check-branch-name:
     name: Check branch name
     runs-on: ubuntu-20.04
     steps:
@@ -17,9 +17,9 @@ jobs:
           maxsplit: -1
 
       - name: Check branch name has slash
-        if: contains('/', env.BRANCH_NAME)
-        run: echo "::error Branch name ${{ env.BRANCH_NAME }} does not contain a prefix and a backslash."
+        if: contains('/', env.BRANCH_NAME) == false
+        run: echo "[ERROR] Branch name ${{ env.BRANCH_NAME }} does not contain a prefix and a backslash." && exit 1
 
       - name: Check branch prefix naming
-        if: contains(fromJson('["feat"]'), steps.split.outputs._0) == false
-        run: echo "::error Branch name ${{ env.BRANCH_NAME }} does not contain a prefix."
+        if: contains(fromJson('["fix", "feat", "junk", "maint", "doc", "no-ci", "testing", "release"]'), steps.split.outputs._0) == false
+        run: echo "[ERROR] Branch name ${{ env.BRANCH_NAME }} prefix is not valid." && exit 1
