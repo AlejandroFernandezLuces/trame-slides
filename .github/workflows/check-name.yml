@@ -16,6 +16,6 @@ jobs:
           separator: "/"
           maxsplit: -1
       - name: Check branch naming
-        if: contains(fromJson('["feat"]'), ${{ steps.split.outputs._0 }}) == false
+        if: contains(fromJson('["feat"]'), ${{ steps.split.outputs._0 }}) == true
         run: echo "All bad"
         
