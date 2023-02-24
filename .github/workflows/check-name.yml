@@ -17,6 +17,6 @@ jobs:
         env:
           BRANCH_PREFIX: ${{ steps.branch.outputs._0 }}
       - name: Check branch naming
-        run: echo "${{ steps.branch.outputs._0 }}"
+        run: echo "${{ github.ref_name }}"
         if: false == (contains(fromJson('["feat", "fix"]'), ${{ env.BRANCH_PREFIX }}))
         
