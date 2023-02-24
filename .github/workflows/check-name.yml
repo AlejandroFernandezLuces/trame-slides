@@ -1,7 +1,8 @@
 on:
   pull_request:
    types: [opened, synchronize]
-
+env:
+ BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
 
 jobs:
   check-name:
@@ -9,14 +10,14 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: jungwinter/split@master
-        id: branch
+        id: split
         with:
-          msg: ${{ github.ref_name }}
+          msg: ${{ env.BRANCH_NAME }}
           separator: "/"
           maxsplit: -1
         env:
-          BRANCH_PREFIX: ${{ steps.branch.outputs._0 }}
+          BRANCH_PREFIX: ${{ steps.split.outputs._0 }}
       - name: Check branch naming
-        run: echo "${{ github.ref_name }}"
+        run: echo "${{ env.BRANCH_NAME }}"
         if: false == (contains(fromJson('["feat", "fix"]'), ${{ env.BRANCH_PREFIX }}))
         
