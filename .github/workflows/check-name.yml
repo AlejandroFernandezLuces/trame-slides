@@ -1,0 +1,25 @@
+on:
+  pull_request:
+   types: [opened, synchronize]
+env:
+ BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
+
+jobs:
+  check-name:
+    name: Check branch name
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: jungwinter/split@master
+        id: split
+        with:
+          msg: ${{ env.BRANCH_NAME }}
+          separator: "/"
+          maxsplit: -1
+
+      - name: Check branch name has slash
+        if: contains('/', env.BRANCH_NAME)
+        run: echo "::error Branch name ${{ env.BRANCH_NAME }} does not contain a prefix and a backslash."
+
+      - name: Check branch prefix naming
+        if: contains(fromJson('["feat"]'), steps.split.outputs._0) == false
+        run: echo "::error Branch name ${{ env.BRANCH_NAME }} does not contain a prefix."
