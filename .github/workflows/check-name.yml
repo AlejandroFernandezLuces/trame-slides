@@ -22,4 +22,4 @@ jobs:
 
       - name: Check branch prefix naming
         if: contains(fromJson('["feat"]'), steps.split.outputs._0) == false
-        run: echo "::error Branch name ${{ env.BRANCH_NAME }} does not contain a prefix." && exit 1
+        run: echo "::error Branch name ${{ env.BRANCH_NAME }} prefix is not valid." && exit 1
