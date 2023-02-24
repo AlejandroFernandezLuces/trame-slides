@@ -17,9 +17,9 @@ jobs:
           maxsplit: -1
 
       - name: Check branch name has slash
-        if: contains('/', env.BRANCH_NAME)
-        run: echo "::error Branch name ${{ env.BRANCH_NAME }} does not contain a prefix and a backslash."
+        if: contains('/', env.BRANCH_NAME) == false
+        run: echo "::error Branch name ${{ env.BRANCH_NAME }} does not contain a prefix and a backslash." && exit 1
 
       - name: Check branch prefix naming
         if: contains(fromJson('["feat"]'), steps.split.outputs._0) == false
-        run: echo "::error Branch name ${{ env.BRANCH_NAME }} does not contain a prefix."
+        run: echo "::error Branch name ${{ env.BRANCH_NAME }} does not contain a prefix." && exit 1
