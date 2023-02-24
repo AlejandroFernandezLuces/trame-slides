@@ -4,10 +4,9 @@ on:
    types: [opened, synchronize]
 
 
-
-
-  jobs:
-    name: Check Branch Name
+jobs:
+  check-name:
+    name: Check branch name
     runs-on: ubuntu-20.04
     steps:
       - uses: jungwinter/split@master
