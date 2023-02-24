@@ -6,7 +6,8 @@ on:
 
 
 
-  Check Branch Name:
+  jobs:
+    name: Check Branch Name
     runs-on: ubuntu-20.04
     steps:
       - uses: jungwinter/split@master
