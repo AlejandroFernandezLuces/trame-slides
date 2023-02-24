@@ -18,6 +18,6 @@ on:
           maxsplit: -1
         env:
           BRANCH_PREFIX: ${{ steps.split.outputs._0 }}
-      -name: Check branch naming
+      - name: Check branch naming
         if: false == (contains(fromJson('["feat", "fix"]'), BRANCH_PREFIX))
         run: exit 1
