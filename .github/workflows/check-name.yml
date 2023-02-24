@@ -1,5 +1,4 @@
 on:
-  push:
   pull_request:
    types: [opened, synchronize]
 
@@ -16,7 +15,7 @@ jobs:
           separator: "/"
           maxsplit: -1
         env:
-          BRANCH_PREFIX: ${{ steps.split.outputs._0 }}
+          BRANCH_PREFIX: ${{ steps.split.outputs._1 }}
       - name: Check branch naming
         run: echo ${{ env.BRANCH_PREFIX }}
         if: false == (contains(fromJson('["feat", "fix"]'), ${{ env.BRANCH_PREFIX }}))
