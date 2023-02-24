@@ -17,6 +17,6 @@ jobs:
         env:
           BRANCH_PREFIX: ${{ steps.split.outputs._1 }}
       - name: Check branch naming
-        run: echo ${{ env.BRANCH_PREFIX }}
+        run: echo "${{ env.BRANCH_PREFIX }}"
         if: false == (contains(fromJson('["feat", "fix"]'), ${{ env.BRANCH_PREFIX }}))
         
