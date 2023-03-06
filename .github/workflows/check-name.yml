@@ -18,7 +18,7 @@ jobs:
 
       - name: Check branch name has slash
         run: echo "${{ env.BRANCH_NAME }}" 
-        #if: contains('/', env.BRANCH_NAME) == false
+        if: contains('/', env.BRANCH_NAME) == false
         #run: echo "[ERROR] Branch name ${{ env.BRANCH_NAME }} does not contain a prefix and a backslash." && exit 1
 
       - name: Check branch prefix naming
