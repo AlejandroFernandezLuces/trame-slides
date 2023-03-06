@@ -9,3 +9,5 @@ PyMAPDL Version:     Version: 0.57.0
 >>> points = np.random.random((10, 3))
 >>> for i, (x, y, z) in enumerate(points):
     mapdl.k(i + 1, x, y, z)
+    
+#hello
