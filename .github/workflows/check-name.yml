@@ -9,17 +9,6 @@ jobs:
     name: Check branch name
     runs-on: ubuntu-20.04
     steps:
-      - uses: jungwinter/split@master
-        id: split
-        with:
-          msg: ${{ env.BRANCH_NAME }}
-          separator: "/"
-          maxsplit: -1
-
-      - name: Check branch name has slash
-        # run: echo "${{ env.BRANCH_NAME }}" 
-        if: contains("/", ${{ env.BRANCH_NAME }}) == false
-        run: echo "[ERROR] Branch name ${{ env.BRANCH_NAME }} does not contain a prefix and a backslash." && exit 1
 
       - name: Check branch prefix naming
         if: contains(fromJson('["fix/", "feat/", "junk/", "maint/", "doc/", "no-ci/", "testing/", "release/"]'), env.BRANCH_NAME) == false
