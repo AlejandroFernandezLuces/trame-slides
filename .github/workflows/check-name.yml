@@ -16,11 +16,11 @@ jobs:
         branch_prefix=$(cut -d '/' -f 1)
         echo "BRANCH_PREFIX=$branch_prefix" >> $GITHUB_ENV
     - name: Check branch name has slash
-      if: contains(env.BRANCH_NAME, '/') == false
+      if: contains(${{ github.head_ref || github.ref_name }}, '/') == false
       run: echo "[ERROR] Branch name ${{ env.BRANCH_NAME }} does not contain a prefix and a backslash." && exit 1
 
     - name: Check branch prefix naming
-      if: contains(fromJson('["fix", "feat", "junk", "maint", "doc", "no-ci", "testing", "release"]'), steps.split.outputs._0) == false
+      if: contains(fromJson('["fix", "feat", "junk", "maint", "doc", "no-ci", "testing", "release"]'), BRANCH_PREFIX) == false
       run: echo "[ERROR] Branch name ${{ env.BRANCH_NAME }} prefix is not valid." && exit 1
 
   check-pr-title:
