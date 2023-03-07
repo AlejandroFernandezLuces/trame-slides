@@ -1,8 +1,7 @@
 on:
   pull_request:
    types: [opened, synchronize]
-env:
- BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
+
 
 jobs:
   check-branch-name:
@@ -16,8 +15,10 @@ jobs:
         branch_prefix=$(cut -d '/' -f 1)
         echo "BRANCH_PREFIX=$branch_prefix" >> $GITHUB_ENV
     - name: Check branch name has slash
-      if: contains(${{ github.head_ref || github.ref_name }}, '/') == false
-      run: echo "[ERROR] Branch name ${{ github.head_ref || github.ref_name }} does not contain a prefix and a backslash." && exit 1
+      env:
+        BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
+      if: contains(env.BRANCH_NAME, '/') == false
+      run: echo "[ERROR] Branch name ${{ env.BRANCH_NAME }} does not contain a prefix and a backslash." && exit 1
 
     - name: Check branch prefix naming
       if: contains(fromJson('["fix", "feat", "junk", "maint", "doc", "no-ci", "testing", "release"]'), env.BRANCH_PREFIX) == false
