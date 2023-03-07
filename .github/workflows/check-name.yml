@@ -12,9 +12,9 @@ jobs:
       if: github.ref_type == 'branch'
       shell: bash
       run: |
-        branch_prefix=$(cut -d '/' -f 1)
+        branch_prefix=$(cut -d '/' -f 0)
         echo "BRANCH_PREFIX=$branch_prefix" >> $GITHUB_ENV
-        echo "${{ env }}"
+        echo "${{ env.BRANCH_PREFIX }}"
     - name: Check branch name has slash
       env:
         BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
