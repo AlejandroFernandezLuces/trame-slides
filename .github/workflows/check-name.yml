@@ -10,13 +10,13 @@ jobs:
     steps:
     - name: "Get the prefix of the branch"
       if: github.ref_type == 'branch'
-      shell: bash
-      run: |
-        branch_prefix=$(echo "${{ github.head_ref || github.ref_name }}" | cut -d '/' -f 1)
-        echo "BRANCH_PREFIX=$branch_prefix" >> $GITHUB_ENV
-    - name: Check branch name has slash
       env:
         BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
+      shell: bash
+      run: |
+        branch_prefix=$(echo "${{ env.BRANCH_NAME }}" | cut -d '/' -f 1)
+        echo "BRANCH_PREFIX=$branch_prefix" >> $GITHUB_ENV
+    - name: Check branch name has slash
       if: contains(env.BRANCH_NAME, '/') == false
       run: echo "[ERROR] Branch name ${{ env.BRANCH_NAME }} does not contain a prefix and a backslash." && exit 1
 
