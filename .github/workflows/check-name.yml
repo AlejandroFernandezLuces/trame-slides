@@ -21,8 +21,8 @@ jobs:
       run: echo "[ERROR] Branch name ${{ env.BRANCH_NAME }} does not contain a prefix and a backslash." && exit 1
 
     - name: Check branch prefix naming
-      if: contains(fromJson('["fix", "feat", "junk", "maint", "doc", "no-ci", "testing", "release"]'), env.BRANCH_PREFIX) == false
-      run: echo "[ERROR] Branch name ${{ env.BRANCH_PREFIX }} prefix is not valid." && exit 1
+      if: contains(fromJson('["fix", "feat", "junk", "maint", "doc", "no-ci", "testing", "release"]'), github.BRANCH_PREFIX) == false
+      run: echo "[ERROR] Branch name ${{ github.BRANCH_PREFIX }} prefix is not valid." && exit 1
 
   check-pr-title:
     runs-on: ubuntu-latest
