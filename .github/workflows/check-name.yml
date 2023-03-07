@@ -22,7 +22,7 @@ jobs:
 
     - name: Check branch prefix naming
       if: contains(fromJson('["fix", "feat", "junk", "maint", "doc", "no-ci", "testing", "release"]'), env.BRANCH_PREFIX) == false
-      run: echo "[ERROR] Branch name ${{ env.BRANCH_NAME }} prefix is not valid." && exit 1
+      run: echo "[ERROR] Branch name ${{ env.BRANCH_PREFIX }} prefix is not valid." && exit 1
 
   check-pr-title:
     runs-on: ubuntu-latest
