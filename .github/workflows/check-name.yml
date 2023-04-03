@@ -1,34 +1,36 @@
 on:
   pull_request:
    types: [opened, synchronize]
-env:
- BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
+
 
 jobs:
   check-branch-name:
     name: Check branch name
     runs-on: ubuntu-20.04
     steps:
-      - uses: jungwinter/split@master
-        id: split
-        with:
-          msg: ${{ env.BRANCH_NAME }}
-          separator: "/"
-          maxsplit: -1
+    - name: "Get the prefix of the branch"
+      if: github.ref_type == 'branch'
+      env:
+        BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
+      shell: bash
+      run: |
+        branch_prefix=$(echo "${{ env.BRANCH_NAME }}" | cut -d '/' -f 1)
+        echo "BRANCH_PREFIX=$branch_prefix" >> $GITHUB_ENV
+    - name: Check branch name has slash
+      env:
+        BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
+      if: contains(env.BRANCH_NAME, '/') == false
+      run: echo "[ERROR] Branch name ${{ env.BRANCH_NAME }} does not contain a prefix and a backslash." && exit 1
 
-      - name: Check branch name has slash
-        if: contains('/', env.BRANCH_NAME) == false
-        run: echo "[ERROR] Branch name ${{ env.BRANCH_NAME }} does not contain a prefix and a backslash." && exit 1
-
-      - name: Check branch prefix naming
-        if: contains(fromJson('["fix", "feat", "junk", "maint", "doc", "no-ci", "testing", "release"]'), steps.split.outputs._0) == false
-        run: echo "[ERROR] Branch name ${{ env.BRANCH_NAME }} prefix is not valid." && exit 1
+    - name: Check branch prefix naming
+      if: contains(fromJson('["fix", "feat", "junk", "maint", "doc", "no-ci", "testing", "release"]'), env.BRANCH_PREFIX) == false
+      run: echo "[ERROR] Branch name ${{ env.BRANCH_PREFIX }} prefix is not valid." && exit 1
 
   check-pr-title:
     runs-on: ubuntu-latest
     permissions:
       statuses: write
     steps:
-      - uses: aslafy-z/conventional-pr-title-action@v3
+      - uses: amannn/action-semantic-pull-request@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
